@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Oral phill &amp; Condom Main_subreport2" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1b22978f-0ed9-4f0b-ad45-e15afa870b9c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="YearOrMonth" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT kap1.Circle,kap1.District,
+
+sum(c6268::integer) as  "5967lyr",
+sum(c6269::integer) as  "84lyr",
+sum(c6270::integer) as  "5957lyr"
+
+
+FROM
+(
+SELECT kap.Circle,kap.District,
+CASE WHEN uid='hDLKcyrGuIJ'  THEN kap.value END AS c6268,
+CASE WHEN uid='e894wAGjwri' THEN kap.value END AS c6269,
+CASE WHEN uid='OvhqTblT1QM' THEN kap.value END AS c6270
+
+from
+(
+
+	SELECT asd.Circle,asd.District,asd.gname,asd.name,asd1.time,
+		asd1.uid,asd1.value,asd1.startdate
+		FROM
+			(
+			SELECT ogm.organisationunitid,og.name AS gname,ou.name,os.level,ou1.name AS Circle,ou2.name AS District
+			FROM orgunitgroupmembers ogm
+			INNER JOIN orgunitgroup og ON ogm.orgunitgroupid = og.orgunitgroupid
+			INNER JOIN organisationunit ou ON ou.organisationunitid = ogm.organisationunitid
+			INNER JOIN _orgunitstructure os ON os.organisationunitid = ou.organisationunitid
+			INNER JOIN organisationunit ou1 ON ou1.organisationunitid = os.idlevel3
+			INNER JOIN organisationunit ou2 ON ou2.organisationunitid = os.idlevel4
+			/*WHERE og.name IN ('Rural Group')*/
+			where (ou1.name LIKE 'All Circles' OR 'All Circles' LIKE 'All Circles')
+			)asd
+
+		LEFT JOIN
+
+			(
+
+			SELECT de.uid,dv.value,dv.sourceid,p.startdate,'curr' AS time
+			FROM datavalue dv
+			inner join dataelement de on de.dataelementid = dv.dataelementid
+			INNER JOIN period p ON p.periodid=dv.periodid
+			WHERE de.uid IN ('hDLKcyrGuIJ','e894wAGjwri','OvhqTblT1QM')
+			/*AND dv.categoryoptioncomboid IN (1)*/
+			AND CASE WHEN extract(month from  TIMESTAMP '$P!{YearOrMonth}') BETWEEN 4 AND 12
+					THEN p.startdate BETWEEN (extract(year from  TIMESTAMP '$P!{YearOrMonth}')||'-04-01')::date AND (extract(year from  TIMESTAMP '$P!{YearOrMonth}')+1 || '-03-31')::date
+				WHEN  extract(month from  TIMESTAMP '$P!{YearOrMonth}') BETWEEN 1 AND 3
+					THEN p.startdate BETWEEN (extract(year from  TIMESTAMP'$P!{YearOrMonth}')-1 || '-04-01')::date AND (extract(year from  TIMESTAMP '$P!{YearOrMonth}') || '-03-31')::date
+				END
+			/*AND periodtypeid = 10*/
+			)asd1
+		ON asd.organisationunitid = asd1.sourceid
+		)kap
+
+		)kap1
+GROUP BY Circle,District
+ORDER BY Circle,District]]>
+	</queryString>
+	<field name="circle" class="java.lang.String"/>
+	<field name="district" class="java.lang.String"/>
+	<field name="5967lyr" class="java.lang.Long"/>
+	<field name="84lyr" class="java.lang.Long"/>
+	<field name="5957lyr" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="518" y="14" width="36" height="28" uuid="3bb57b0f-8867-43c6-bebd-cb26104461e2"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="14" width="44" height="28" uuid="08ceb5dd-81d4-44cd-afcb-77b14310a5c4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="14" width="40" height="28" uuid="083aeaee-c07b-401a-b462-155c99275b69"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="14" width="50" height="28" uuid="a53e6252-699b-4642-9dd5-62118bc08a96"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Corporation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="133" y="14" width="39" height="28" uuid="e8fe655b-3b0d-41ab-a6e6-25accf6bfcf9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="73" y="14" width="60" height="28" uuid="4df5a9f7-2ba7-4d93-89ad-8a1b4a642432"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="14" width="71" height="28" uuid="f5156564-e85a-41eb-b4c0-609e07fb369c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="14" width="42" height="28" uuid="44da023b-b861-45e1-aff8-d31a67b11128"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="14" width="38" height="28" uuid="9e0de00e-2bbf-424e-ac3c-01c8940d3151"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="14" width="111" height="28" uuid="ed2bc4d1-4046-4391-ad83-a485df476c04"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="14" width="24" height="28" uuid="06204cc5-a8be-4e67-8a16-caabd7f533b7"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Sr No]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="172" y="0" width="36" height="20" uuid="8e98552d-0806-4bff-848b-5e95b25a1b33"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{circle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="0" width="30" height="20" uuid="c48f346f-479e-4de1-80f1-16c2d3db4b2d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{84lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="396" y="0" width="38" height="20" uuid="836df0a5-1104-47e4-9816-c9c0064fcf0e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{district}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="317" y="0" width="37" height="20" uuid="ebb40357-22eb-4845-b64a-86d40563a235"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{5957lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="243" y="0" width="37" height="20" uuid="0e3493cc-e035-4cfd-9571-463292fa8ae4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{5967lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="518" y="0" width="36" height="20" uuid="9a04d176-361b-41a2-a0b2-0c4f52af5b8f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{5957lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="0" width="35" height="20" uuid="5a024200-e47e-44e8-a956-ae88c9e20b9c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{district}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="133" y="0" width="39" height="20" uuid="6e652d42-453b-46e9-82b6-0ef72ab9a332"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{5957lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="354" y="0" width="42" height="20" uuid="23eb68a3-0b97-4d19-a613-b744c4ebdca7"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{circle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="37" height="20" uuid="3c2f62a6-98ee-4dea-8388-748dea3dedb4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{84lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="0" width="40" height="20" uuid="04420d71-53e9-483b-a3fb-5906f57e1d07"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{5967lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="0" width="30" height="20" uuid="88a25604-e805-4b72-81fc-ff0733dbf235"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{5967lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="0" width="44" height="20" uuid="5e79b335-79ca-4f83-bd8a-57d3fedb6975"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{84lyr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="23" height="20" uuid="6c5e2162-c514-4490-ac89-c3f6aba89f30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{circle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="23" y="0" width="50" height="20" uuid="927de75a-2f66-4aa4-82d7-1f4cdfe2ffb9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{district}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="74" height="20" uuid="3f131627-4ffc-41b8-9c49-5b25cce7febc"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Corporation Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

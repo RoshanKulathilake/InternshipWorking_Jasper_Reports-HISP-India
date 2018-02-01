@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Post Partum Sterilisation Main" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="896ef2dc-0cfa-460a-9d61-c013c8f8db03">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\HISP Working\\iReport Work\\Desined reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="YearOrMonth" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT * FROM public._dateperiodstructure
+ORDER BY dateperiod ASC LIMIT 1]]>
+	</queryString>
+	<field name="dateperiod" class="java.sql.Date"/>
+	<field name="daily" class="java.lang.String"/>
+	<field name="weekly" class="java.lang.String"/>
+	<field name="monthly" class="java.lang.String"/>
+	<field name="bimonthly" class="java.lang.String"/>
+	<field name="quarterly" class="java.lang.String"/>
+	<field name="sixmonthly" class="java.lang.String"/>
+	<field name="sixmonthlyapril" class="java.lang.String"/>
+	<field name="yearly" class="java.lang.String"/>
+	<field name="financialapril" class="java.lang.String"/>
+	<field name="financialjuly" class="java.lang.String"/>
+	<field name="financialoct" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="18" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="55" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="5" width="100" height="20" uuid="80c4892e-3a6c-4c39-af9f-85ce48fc366b"/>
+				<text><![CDATA[Name of the Facility:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="30" width="100" height="20" uuid="c4925946-70bb-4c77-ba21-dbe091aaff5b"/>
+				<text><![CDATA[Month/Year:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="126" y="5" width="100" height="20" uuid="a3ee9458-8d84-4092-8723-e61acf2f27d9"/>
+				<text><![CDATA[BEED District]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="126" y="30" width="114" height="20" uuid="06772f9c-1cf4-4ff4-b166-958a3fa3cdc9"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($P{YearOrMonth})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="49" uuid="e52cbf0e-1584-41ae-87e0-2a31fa5a5dcf"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="YearOrMonth">
+					<subreportParameterExpression><![CDATA[$P{YearOrMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Post Partum Sterilisation Main_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="53">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="53" uuid="8b54bbc6-1f3e-458d-aed6-8af976df2994"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="YearOrMonth">
+					<subreportParameterExpression><![CDATA[$P{YearOrMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Post Partum Sterilisation Main_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="68">
+			<subreport>
+				<reportElement x="0" y="15" width="555" height="53" uuid="6ac2a1d8-09a2-4b64-9df3-354ed5472788"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="YearOrMonth">
+					<subreportParameterExpression><![CDATA[$P{YearOrMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "IUD Main_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="5" width="100" height="1" uuid="d0491402-c06d-4176-b1c7-4fdfd8c87423"/>
+			</break>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50" uuid="38076112-dc2b-4a19-9ac3-120f23e540ac"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="YearOrMonth">
+					<subreportParameterExpression><![CDATA[$P{YearOrMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "IUD Main_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="66">
+			<break>
+				<reportElement x="0" y="6" width="100" height="1" uuid="eccca961-975b-4cce-b189-139fdf924de6"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="14" width="555" height="52" uuid="af62ff7c-8114-45aa-b506-99130e8f27a7"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="YearOrMonth">
+					<subreportParameterExpression><![CDATA[$P{YearOrMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Oral phill & Condom Main_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50" uuid="9d59e114-fede-49d1-9c04-36ba85b45ccf"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="YearOrMonth">
+					<subreportParameterExpression><![CDATA[$P{YearOrMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Oral phill & Condom Main_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

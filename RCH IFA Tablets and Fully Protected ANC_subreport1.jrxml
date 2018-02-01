@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RCH IFA Tablets and Fully Protected ANC_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="702de693-dae2-4e20-8df2-d2d938eff532">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT kap1.Circle,kap1.District,
+
+sum(c6268::integer) as  "5967lyr",
+sum(c6269::integer) as  "84lyr",
+sum(c6270::integer) as  "5957lyr"
+
+
+FROM
+(
+SELECT kap.Circle,kap.District,
+CASE WHEN uid='hDLKcyrGuIJ'  THEN kap.value END AS c6268,
+CASE WHEN uid='e894wAGjwri' THEN kap.value END AS c6269,
+CASE WHEN uid='OvhqTblT1QM' THEN kap.value END AS c6270
+
+from
+(
+
+	SELECT asd.Circle,asd.District,asd.gname,asd.name,asd1.time,
+		asd1.uid,asd1.value,asd1.startdate
+		FROM
+			(
+			SELECT ogm.organisationunitid,og.name AS gname,ou.name,os.level,ou1.name AS Circle,ou2.name AS District
+			FROM orgunitgroupmembers ogm
+			INNER JOIN orgunitgroup og ON ogm.orgunitgroupid = og.orgunitgroupid
+			INNER JOIN organisationunit ou ON ou.organisationunitid = ogm.organisationunitid
+			INNER JOIN _orgunitstructure os ON os.organisationunitid = ou.organisationunitid
+			INNER JOIN organisationunit ou1 ON ou1.organisationunitid = os.idlevel3
+			INNER JOIN organisationunit ou2 ON ou2.organisationunitid = os.idlevel4
+			/*WHERE og.name IN ('Rural Group')*/
+			where (ou1.name LIKE 'All Circles' OR 'All Circles' LIKE 'All Circles')
+			)asd
+
+		LEFT JOIN
+
+			(
+
+			SELECT de.uid,dv.value,dv.sourceid,p.startdate,'curr' AS time
+			FROM datavalue dv
+			inner join dataelement de on de.dataelementid = dv.dataelementid
+			INNER JOIN period p ON p.periodid=dv.periodid
+			WHERE de.uid IN ('hDLKcyrGuIJ','e894wAGjwri','OvhqTblT1QM')
+			/*AND dv.categoryoptioncomboid IN (1)*/
+			AND CASE WHEN extract(month from  TIMESTAMP '2017-01-01') BETWEEN 4 AND 12
+					THEN p.startdate BETWEEN (extract(year from  TIMESTAMP '2017-01-01')||'-04-01')::date AND (extract(year from  TIMESTAMP '2017-01-01')+1 || '-03-31')::date
+				WHEN  extract(month from  TIMESTAMP '2017-01-01') BETWEEN 1 AND 3
+					THEN p.startdate BETWEEN (extract(year from  TIMESTAMP'2017-01-01')-1 || '-04-01')::date AND (extract(year from  TIMESTAMP '2017-01-01') || '-03-31')::date
+				END
+			/*AND periodtypeid = 10*/
+			)asd1
+		ON asd.organisationunitid = asd1.sourceid
+		)kap
+
+		)kap1
+GROUP BY Circle,District
+ORDER BY Circle,District]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

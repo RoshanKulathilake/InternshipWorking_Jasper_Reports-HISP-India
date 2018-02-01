@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Post-partum,IUD, Oral Pill" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="331a1772-d429-4e30-9f1d-cb3fc78dc70a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\HISP Working\\iReport Work\\Desined reports\\"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="126" y="10" width="100" height="20" uuid="e1f3c4a8-6a65-4b76-b524-3dea1e99df07"/>
+				<text><![CDATA[BEED District]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="35" width="100" height="20" uuid="15b120a7-da50-4812-8ef6-bc0737fcdb11"/>
+				<text><![CDATA[Month/Year:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="126" y="35" width="114" height="20" uuid="83344a7b-9600-478b-83d7-1cdd79999f5d"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($P{YearOrMonth})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="10" width="100" height="20" uuid="f8e17ce1-4428-43a0-8f41-afa91de9fe7f"/>
+				<text><![CDATA[Name of the Facility:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<subreport>
+				<reportElement x="193" y="14" width="200" height="100" uuid="55ad6ef9-2318-4e42-b741-bc519916349b"/>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
